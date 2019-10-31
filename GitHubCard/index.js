@@ -11,7 +11,7 @@ data in order to use it to build your component function
 
 Skip to Step 3.
 */
-// console.log(data);
+// console.log(emma);
 
 /* Step 4: Pass the data received from Github into your function, 
 create a new component and add it to the DOM as a child of .cards
@@ -37,6 +37,30 @@ user, and adding that card to the DOM.
 */
 
 const followersArray = [];
+
+axios.get("https://api.github.com/users/ELAndrews/followers") 
+  .then((dataArr) => {
+      dataArr.data.forEach((person) => {
+        followersArray.push(person.url)})
+        followersArray.forEach((i) => {
+            axios.get(i)
+            .then((data) => {
+              cards.append(card(data));
+              console.log(data);
+            })
+            .catch(() => {
+              console.log('Error collecting data')
+            })
+          })
+      
+    })
+    .catch(()=> {
+      console.log(`Error collecting data`)
+    });
+    
+    
+console.log(followersArray);
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
 Using DOM methods and properties, create a component that will return the following DOM element:
@@ -70,6 +94,7 @@ function card (obj) {
  const followers = document.createElement('p');
  const following = document.createElement('p');
  const bio = document.createElement('p');
+
  name.textContent = obj.data.name;
  img.src = obj.data.avatar_url;
  username.textContent = obj.data.login;
@@ -96,10 +121,6 @@ card.classList.add('card');
 cardInfo.classList.add('card-info');
 name.classList.add('name');
 username.classList.add('username');
-
-console.log(profile);
-console.log(profileLink);
-
 
 return card
 }
