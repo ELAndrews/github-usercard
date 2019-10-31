@@ -3,20 +3,28 @@
            https://api.github.com/users/<your name>
 */
 
-const data = axios.get('https://api.github.com/users/ELAndrews');
+const emma = axios.get('https://api.github.com/users/ELAndrews');
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
-   github info! You will need to understand the structure of this 
-   data in order to use it to build your component function 
+github info! You will need to understand the structure of this 
+data in order to use it to build your component function 
 
-   Skip to Step 3.
+Skip to Step 3.
 */
-console.log(data);
+// console.log(data);
 
 /* Step 4: Pass the data received from Github into your function, 
-           create a new component and add it to the DOM as a child of .cards
+create a new component and add it to the DOM as a child of .cards
 */
 
+const cards = document.querySelector('.cards');
+axios.get('https://api.github.com/users/ELAndrews')
+  .then((data) => {
+    cards.append(card(data));
+  })
+  .catch ((error) => {
+    console.log('Error collecting data')
+  })
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
 follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -62,7 +70,17 @@ function card (obj) {
  const followers = document.createElement('p');
  const following = document.createElement('p');
  const bio = document.createElement('p');
-
+ name.textContent = obj.data.name;
+ img.src = obj.data.avatar_url;
+ username.textContent = obj.data.login;
+ location.textContent = `Location: ${obj.data.location}`;
+ profile.textContent = `Profile: `;
+ profileLink.textContent = obj.data.html_url;
+ profileLink.setAttribute( 'href', obj.data.html_url);
+ followers.textContent = `Followers: ${obj.data.followers}`;
+ following.textContent = `Following: ${obj.data.following}`;
+ bio.textContent = `Bio: ${obj.data.bio}`;
+ 
 card.append(img);
 card.append(cardInfo);
 cardInfo.append(name);
@@ -75,17 +93,13 @@ cardInfo.append(bio);
 profile.append(profileLink);
 
 card.classList.add('card');
-cardInfo.classList.add('ccard-info');
+cardInfo.classList.add('card-info');
 name.classList.add('name');
 username.classList.add('username');
 
-name.textContent = obj.name;
-username.textContent = obj.login;
-location.textContent = `Location: `, obj.location;
-profile.textContent = `Profile: `;
-profileLink.textContent = obj.html_url;
-followers.textContent = `Followers: `, obj.followers;
-following.textContent = `Following: `, obj.following;
+console.log(profile);
+console.log(profileLink);
+
 
 return card
 }
@@ -98,9 +112,3 @@ luishrd
 bigknell
 */
 
-// const card = document.querySelector('.card');
-
-// axios.get('https://api.github.com/users/ELAndrews')
-//   .then(response => {
-//     card.append(response);
-//   })
