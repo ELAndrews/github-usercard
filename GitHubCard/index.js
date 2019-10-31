@@ -57,9 +57,6 @@ axios.get("https://api.github.com/users/ELAndrews/followers")
     .catch(()=> {
       console.log(`Error collecting data`)
     });
-    
-    
-console.log(followersArray);
 
 
 /* Step 3: Create a function that accepts a single object as its only argument,
